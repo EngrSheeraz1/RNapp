@@ -1,8 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { validateCredentials, validateEmail } from "../src/utils/auth-validation.ts";
-import { AUTH_NOT_CONFIGURED, getAuthProvider } from "../src/services/auth.ts";
+import { validateCredentials, validateEmail, validateNewPassword } from "../src/utils/auth-validation.ts";
 
 test("empty email and password each get a field error", () => {
   const errors = validateCredentials("", "");
@@ -40,7 +39,12 @@ test("nonempty credentials pass local validation without authenticating", () => 
   });
 });
 
-test("no real authentication provider is configured", () => {
-  assert.equal(getAuthProvider(), null);
-  assert.match(AUTH_NOT_CONFIGURED, /No request was sent/);
+test('new passwords enforce minimum length and bcrypt byte limit', () => {
+  assert.ok(validateNewPassword('short'));
+  assert.ok(validateNewPassword(' '.repeat(8)));
+  assert.equal(validateNewPassword('correct horse battery'), undefined);
+  assert.equal(validateNewPassword('a'.repeat(72)), undefined);
+  assert.ok(validateNewPassword('a'.repeat(73)));
+  assert.equal(validateNewPassword('😀'.repeat(18)), undefined);
+  assert.ok(validateNewPassword('😀'.repeat(19)));
 });

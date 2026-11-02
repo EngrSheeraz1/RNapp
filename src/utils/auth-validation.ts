@@ -27,3 +27,11 @@ export function validateCredentials(email: string, password: string): Credential
     password: password.trim() ? undefined : "Please enter your password.",
   };
 }
+
+export function validateNewPassword(password: string): string | undefined {
+  if (!password.trim() || password.length < 8) return 'Use a password with at least 8 characters.';
+  let bytes: number;
+  try { bytes = encodeURIComponent(password).replace(/%[A-F\d]{2}/gi, 'x').length; }
+  catch { return 'Please use valid characters in your password.'; }
+  if (bytes > 72) return 'Password must be at most 72 UTF-8 bytes.';
+}

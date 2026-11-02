@@ -14,7 +14,7 @@ export function SocialLoginButton({ provider, onPress, disabled = false }: Socia
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={`Continue with ${provider}`}
-      accessibilityHint="Sign-in is not configured yet."
+      accessibilityHint={`Opens ${provider} sign-in.`}
       accessibilityState={{ disabled }}
       disabled={disabled}
       onPress={onPress}

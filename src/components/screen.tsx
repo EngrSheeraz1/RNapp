@@ -6,11 +6,12 @@ import { useTheme } from '@/constants/theme';
 
 type ScreenProps = PropsWithChildren<{
   eyebrow: string;
+  eyebrowColor?: string;
   title: string;
   description: string;
 }>;
 
-export function Screen({ eyebrow, title, description, children }: ScreenProps) {
+export function Screen({ eyebrow, eyebrowColor, title, description, children }: ScreenProps) {
   const { colors } = useTheme();
 
   return (
@@ -19,7 +20,7 @@ export function Screen({ eyebrow, title, description, children }: ScreenProps) {
       style={[styles.screen, { backgroundColor: colors.background }]}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.heading}>
-          <Text style={[styles.eyebrow, { color: colors.accent }]}>{eyebrow}</Text>
+          <Text style={[styles.eyebrow, { color: eyebrowColor ?? colors.accent }]}>{eyebrow}</Text>
           <Text accessibilityRole="header" style={[styles.title, { color: colors.text }]}>
             {title}
           </Text>
